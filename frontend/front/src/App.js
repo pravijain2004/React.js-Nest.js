@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button } from '@mui/material';
+import { Button, Card, CardContent, Typography, Paper } from '@mui/material';
 
 const App = () => {
   const [message, setMessage] = useState('');
@@ -17,13 +17,45 @@ const App = () => {
   }, []);
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '20px' }}>
-      <h1>React + Nest.js Integration</h1>
-      <p>Message from Backend: {message}</p>
-      <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
+    <Paper
+      style={{
+        padding: '20px',
+        backgroundColor: '#f5f5f5',
+        minHeight: '100vh',
+        textAlign: 'center',
+      }}
+    >
+      <Typography variant="h3" gutterBottom>
+        React + Nest.js Integration
+      </Typography>
+      
+      <Card
+        style={{
+          maxWidth: '400px',
+          margin: '20px auto',
+          padding: '20px',
+          textAlign: 'center',
+        }}
+        elevation={3}
+      >
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            Message from Backend:
+          </Typography>
+          <Typography variant="body1" color="textSecondary">
+            {message || 'Loading...'}
+          </Typography>
+        </CardContent>
+      </Card>
+
+      <Button 
+        variant="contained" 
+        color="primary" 
+        style={{ marginTop: '20px' }}
+      >
         Click Me
       </Button>
-    </div>
+    </Paper>
   );
 };
 
