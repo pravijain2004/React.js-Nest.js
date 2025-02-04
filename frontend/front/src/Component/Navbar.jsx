@@ -15,57 +15,70 @@ const Navbar = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <AppBar position="static" sx={{ backgroundColor: "#2874f0", padding: "8px 16px" }}>
-        <Toolbar sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
+      {/* Navbar */}
+      <AppBar position="static" sx={{ backgroundColor: "#2874f0", padding: 0, margin: 0 }}>
+        <Toolbar sx={{ display: "flex", alignItems: "center", paddingTop: "4px", paddingBottom: "4px", margin: 0 }}>
           {/* Logo */}
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography variant="h6" sx={{ fontWeight: "bold", flexShrink: 0 }}>Magneto</Typography>
+          <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0, minWidth: "150px", paddingLeft: "16px" }}>
+            <Typography variant="h6" sx={{ fontWeight: "bold" }}>Magneto</Typography>
             <Typography variant="body2" sx={{ marginLeft: 1, color: "yellow" }}>Explore Plus</Typography>
           </Box>
-          
-          {/* Search Bar (Only for Desktop) */}
-          {isDesktop && (
-            <Box sx={{ display: "flex", alignItems: "center", backgroundColor: "white", borderRadius: "4px", padding: "4px 8px", flexGrow: 1, maxWidth: 600 }}>
-              <Search sx={{ color: "gray" }} />
-              <InputBase placeholder="Search for products, brands, and more" sx={{ marginLeft: 1, flex: 1 }} />
-            </Box>
-          )}
-          
+
+          {/* Search Bar (Fixed between Logo & Icons) */}
+          <Box 
+            sx={{ 
+              display: "flex", 
+              alignItems: "center", 
+              backgroundColor: "white", 
+              borderRadius: "4px", 
+              padding: "4px 8px", 
+              flexGrow: 1, 
+              maxWidth: isMobile ? "60%" : isTablet ? "70%" : "600px",
+              marginX: "10px" 
+            }}
+          >
+            <Search sx={{ color: "gray" }} />
+            <InputBase placeholder="Search for products, brands, and more" sx={{ marginLeft: 1, flex: 1 }} />
+          </Box>
+
           {/* Buttons & Icons */}
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
             {isDesktop && (
-              <Button color="inherit" sx={{ marginLeft: 2, textTransform: "none" }} onClick={() => navigate("/sell")}>Become a Seller</Button>
+              <Button color="inherit" sx={{ textTransform: "none" }} onClick={() => navigate("/sell")}>Become a Seller</Button>
             )}
             {(isTablet || isDesktop) && (
               <Button color="inherit" sx={{ marginLeft: 2, textTransform: "none" }} onClick={() => navigate("/login")}>Login</Button>
             )}
-            <IconButton color="inherit" onClick={() => navigate("/cart")}><ShoppingCart /></IconButton>
+            {!isMobile && (
+              <IconButton color="inherit" onClick={() => navigate("/cart")}><ShoppingCart /></IconButton>
+            )}
             <IconButton color="inherit" onClick={() => navigate("/account")}><AccountCircle /></IconButton>
           </Box>
         </Toolbar>
       </AppBar>
 
+      {/* Main Content */}
       <Box sx={{ flexGrow: 1 }}></Box>
 
       {/* Footer */}
-      <Box sx={{ backgroundColor: "#172337", color: "white", padding: "16px", marginTop: "auto" }}>
-        <Grid container spacing={2} sx={{ maxWidth: "1200px", margin: "auto", fontSize: "14px" }}>
+      <Box sx={{ backgroundColor: "#172337", color: "white", padding: 0, marginTop: "auto" }}>
+        <Grid container spacing={2} sx={{ maxWidth: "1200px", margin: "auto", fontSize: "14px", padding: 0 }}>
           <Grid item xs={6} sm={3}>
-            <Typography variant="subtitle2" sx={{ fontWeight: "bold", marginBottom: "8px" }}>ABOUT</Typography>
+            <Typography variant="subtitle2" sx={{ fontWeight: "bold", marginBottom: "0px" }}>ABOUT</Typography>
             <Link href="#" color="inherit" display="block">Contact Us</Link>
             <Link href="#" color="inherit" display="block">About Us</Link>
             <Link href="#" color="inherit" display="block">Careers</Link>
             <Link href="#" color="inherit" display="block">Magneto Stories</Link>
           </Grid>
           <Grid item xs={6} sm={3}>
-            <Typography variant="subtitle2" sx={{ fontWeight: "bold", marginBottom: "8px" }}>HELP</Typography>
+            <Typography variant="subtitle2" sx={{ fontWeight: "bold", marginBottom: "0px" }}>HELP</Typography>
             <Link href="#" color="inherit" display="block">Payments</Link>
             <Link href="#" color="inherit" display="block">Shipping</Link>
             <Link href="#" color="inherit" display="block">Cancellation & Returns</Link>
             <Link href="#" color="inherit" display="block">FAQ</Link>
           </Grid>
           <Grid item xs={6} sm={3}>
-            <Typography variant="subtitle2" sx={{ fontWeight: "bold", marginBottom: "8px" }}>CONSUMER POLICY</Typography>
+            <Typography variant="subtitle2" sx={{ fontWeight: "bold", marginBottom: "0px" }}>CONSUMER POLICY</Typography>
             <Link href="#" color="inherit" display="block">Cancellation & Returns</Link>
             <Link href="#" color="inherit" display="block">Terms Of Use</Link>
             <Link href="#" color="inherit" display="block">Security</Link>
@@ -75,7 +88,7 @@ const Navbar = () => {
 
         <Divider sx={{ backgroundColor: "gray", marginY: "16px" }} />
 
-        <Grid container spacing={2} sx={{ maxWidth: "1200px", margin: "auto", textAlign: "center", fontSize: "12px" }}>
+        <Grid container spacing={2} sx={{ maxWidth: "1200px", margin: "auto", textAlign: "center", fontSize: "12px", padding: 0 }}>
           <Grid item xs={4}><Link href="#" color="inherit">Become a Seller</Link></Grid>
           <Grid item xs={4}><Link href="#" color="inherit">Advertise</Link></Grid>
           <Grid item xs={4}><Link href="#" color="inherit">Gift Cards</Link></Grid>
