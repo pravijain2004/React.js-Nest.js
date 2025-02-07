@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import bg from "./bg/signin.svg";
-import bgimg from "./bg/backimg.jpg";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -82,14 +81,7 @@ export default function Register() {
           Failed! Enter correct username and password.
         </Alert>
       </Snackbar>
-      <div
-        style={{
-          backgroundImage: `url(${bgimg})`,
-          backgroundSize: "cover",
-          height: "100vh",
-          color: "#f5f5f5",
-        }}
-      >
+      <div>
         <Box sx={boxstyle}>
           <Grid container>
             <Grid item xs={12} sm={12} lg={6}>

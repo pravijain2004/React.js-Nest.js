@@ -1,20 +1,22 @@
 import React from "react";
 import { 
   AppBar, Toolbar, Typography, Box, IconButton, Button, InputBase, 
-  useMediaQuery, Grid, Link, Divider, GlobalStyles 
+  useMediaQuery, GlobalStyles 
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart, AccountCircle, Search } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
+import CategoryBar from "./CategoryBar";  // Import CategoryBar Component
+import Footer from "./Footer"; // Import Footer Component
 
 const Navbar = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
   // Breakpoints
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Mobile: <600px
-  const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md")); // Tablet: 600px-960px
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md")); // Desktop: >960px
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"));
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <>
@@ -78,45 +80,14 @@ const Navbar = () => {
           </Toolbar>
         </AppBar>
 
+        {/* Category Bar Below Navbar */}
+        <CategoryBar />
+
         {/* Main Content */}
         <Box sx={{ flexGrow: 1 }}></Box>
 
         {/* Footer */}
-        <Box sx={{ backgroundColor: "#172337", color: "white", padding: 0, marginTop: 0 }}>
-          <Grid container spacing={2} sx={{ maxWidth: "1200px", margin: 0, fontSize: "14px", padding: 0 }}>
-            <Grid item xs={6} sm={3}>
-              <Typography variant="subtitle2" sx={{ fontWeight: "bold", marginBottom: "0px" }}>ABOUT</Typography>
-              <Link href="#" color="inherit" display="block">Contact Us</Link>
-              <Link href="#" color="inherit" display="block">About Us</Link>
-              <Link href="#" color="inherit" display="block">Careers</Link>
-              <Link href="#" color="inherit" display="block">Magneto Stories</Link>
-            </Grid>
-            <Grid item xs={6} sm={3}>
-              <Typography variant="subtitle2" sx={{ fontWeight: "bold", marginBottom: "0px" }}>HELP</Typography>
-              <Link href="#" color="inherit" display="block">Payments</Link>
-              <Link href="#" color="inherit" display="block">Shipping</Link>
-              <Link href="#" color="inherit" display="block">Cancellation & Returns</Link>
-              <Link href="#" color="inherit" display="block">FAQ</Link>
-            </Grid>
-            <Grid item xs={6} sm={3}>
-              <Typography variant="subtitle2" sx={{ fontWeight: "bold", marginBottom: "0px" }}>CONSUMER POLICY</Typography>
-              <Link href="#" color="inherit" display="block">Cancellation & Returns</Link>
-              <Link href="#" color="inherit" display="block">Terms Of Use</Link>
-              <Link href="#" color="inherit" display="block">Security</Link>
-              <Link href="#" color="inherit" display="block">Privacy</Link>
-            </Grid>
-          </Grid>
-
-          <Divider sx={{ backgroundColor: "gray", marginY: "16px" }} />
-
-          <Grid container spacing={2} sx={{ maxWidth: "1200px", margin: "auto", textAlign: "center", fontSize: "12px", padding: 0 }}>
-            <Grid item xs={4}><Link href="#" color="inherit">Become a Seller</Link></Grid>
-            <Grid item xs={4}><Link href="#" color="inherit">Advertise</Link></Grid>
-            <Grid item xs={4}><Link href="#" color="inherit">Gift Cards</Link></Grid>
-          </Grid>
-
-          <Typography variant="body2" align="center" sx={{ marginTop: "12px", fontSize: "12px" }}>© 2007-2025 Magneto.com</Typography>
-        </Box>
+        <Footer />
       </Box>
     </>
   );
