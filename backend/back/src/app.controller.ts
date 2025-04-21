@@ -1,12 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 
-@Controller()
+@Controller('/login')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post('/login')
+  addLogin(@Body() requestData:Record<string, any>) {
+    console.log(requestData);
+    return{ Success: true};
   }
 }
