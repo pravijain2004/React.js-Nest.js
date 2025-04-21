@@ -1,8 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
+  const PORT = configService.get<number>('PORT')|| 3000;
+
 
   app.enableCors({
     origin: 'http://localhost:3001',
@@ -10,7 +15,8 @@ async function bootstrap() {
     credentials:true,
   })
 
-  await app.listen(process.env.PORT ?? 3000);
-  console.log(`Backend is running on http://localhost:${process.env.PORT ?? 3000}`);
+  
+  await app.listen(PORT);
+  console.log(`Backend is running on http://localhost:${PORT}`);
 }
 bootstrap();
