@@ -15,8 +15,7 @@ async function bootstrap() {
     credentials:true,
   })
 
-  
-  await app.listen(PORT);
-  console.log(`Backend is running on http://localhost:${PORT}`);
+  await app.listen(PORT,'0.0.0.0');
+  console.log(`Backend is running on ${PORT}`);
 }
 bootstrap();
