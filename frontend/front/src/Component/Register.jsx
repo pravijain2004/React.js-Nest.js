@@ -60,7 +60,7 @@ export default function Register() {
     const API_URL = import.meta.env.REACT_APP_API_URL;
     
     try {
-      await axios.post(`${API_URL}/auth/register`,{
+      const response = await axios.post(`${API_URL}/auth/register`,{
         username,
         email,
         password,
