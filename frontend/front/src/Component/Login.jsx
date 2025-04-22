@@ -64,7 +64,7 @@ export default function Login() {
     const API_URL = import.meta.env.REACT_APP_API_URL;
 
     try{
-      await axios.post(`${API_URL}/auth/login`,{
+     const response =  await axios.post(`${API_URL}/auth/login`,{
         email,
         password,
       });
