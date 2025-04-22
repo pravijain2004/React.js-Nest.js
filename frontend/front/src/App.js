@@ -1,24 +1,24 @@
 import React from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import Login from "./Component/Login";
 import Register from "./Component/Register";
 import Forgot from "./Component/Forgot_Password";
 import Navbar from "./Component/Navbar";
-import CategoryBar from "./Component/CategoryBar";  // Import CategoryBar
-import Home from "./pages/Home"; // Add a Home component for the main page
+import Dashboard from "./Component/Dashboard";
+
 
 export default function App() {
   return (
     <BrowserRouter>
-      {/* Navbar (Includes CategoryBar inside) */}
-      <Navbar />
+    
 
       {/* Routes */}
       <Routes>
-        <Route path="/" element={<Home />} /> {/* Show Home page when user visits "/" */}
+        <Route path="/" element={<Navbar />}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/reset-password" element={<Forgot />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

@@ -8,14 +8,13 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { useState, forwardRef } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
 import MuiAlert from "@mui/material/Alert";
 import Slide from "@mui/material/Slide";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -26,7 +25,6 @@ const darkTheme = createTheme({
     mode: "dark",
   },
 });
-
 const boxstyle = {
   position: "absolute",
   top: "50%",
@@ -45,23 +43,43 @@ const center = {
 };
 
 export default function Register() {
-  const [open, setOpen] = useState(false);
-  const [remember, setRemember] = useState(false);
+  const [openError, setOpenError] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
   const vertical = "top";
   const horizontal = "right";
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    setOpen(true);
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
+    const username = data.get("username")
+    const email = data.get("email");
+    const password = data.get("password");
+
+    const API_URL = import.meta.env.REACT_APP_API_URL;
+    
+    try {
+      await axios.post(`${API_URL}/auth/register`,{
+        username,
+        email,
+        password,
+      });
+    
+    setOpenSuccess(true); // Show success Snackbar
+    setTimeout(() => navigate("/login"),2000);
+    }catch (error){
+      console.error("Registration failed:", error);
+      setOpenError(true);
+    }
   };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false);
+    setOpenError(false);
+    setOpenSuccess(false);
   };
 
   function TransitionLeft(props) {
@@ -70,17 +88,32 @@ export default function Register() {
 
   return (
     <>
+      {/* Error Snackbar (Password Mismatch) */}
       <Snackbar
-        open={open}
+        open={openError}
         autoHideDuration={3000}
         onClose={handleClose}
         TransitionComponent={TransitionLeft}
         anchorOrigin={{ vertical, horizontal }}
       >
         <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-          Failed! Enter correct username and password.
+          Registration failed.Please try again.
         </Alert>
       </Snackbar>
+
+      {/* Success Snackbar (Registration Successful) */}
+      <Snackbar
+        open={openSuccess}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        TransitionComponent={TransitionLeft}
+        anchorOrigin={{ vertical, horizontal }}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Success! Registration completed.
+        </Alert>
+      </Snackbar>
+
       <div>
         <Box sx={boxstyle}>
           <Grid container>
@@ -106,7 +139,7 @@ export default function Register() {
                   backgroundColor: "#3b33d5",
                 }}
               >
-                <ThemeProvider theme={darkTheme}>
+                 <ThemeProvider theme={darkTheme}>
                   <Container>
                     <Box height={35} />
                     <Box sx={center}>
@@ -130,9 +163,20 @@ export default function Register() {
                           <TextField
                             required
                             fullWidth
-                            id="email"
+                            id="username"
                             label="Username"
+                            name="username"
+                            autoComplete="username"
+                          />
+                        </Grid>
+                        <Grid item xs={12} sx={{ ml: "3em", mr: "3em" }}>
+                          <TextField
+                            required
+                            fullWidth
                             name="email"
+                            label="Email"
+                            type="email"
+                            id="email"
                             autoComplete="email"
                           />
                         </Grid>
@@ -144,25 +188,13 @@ export default function Register() {
                             label="Password"
                             type="password"
                             id="password"
-                            autoComplete="new-password"
-                          />
-                        </Grid>
-                        <Grid item xs={12} sx={{ ml: "3em", mr: "3em" }}>
-                          <TextField
-                            required
-                            fullWidth
-                            name="confirmpassword"
-                            label="Confirm Password"
-                            type="password"
-                            id="confirmpassword"
-                            autoComplete="new-password"
+                            autoComplete="password"
                           />
                         </Grid>
                         <Grid item xs={12} sx={{ ml: "5em", mr: "5em" }}>
                           <Button
                             type="submit"
                             variant="contained"
-                            fullWidth="true"
                             size="large"
                             sx={{
                               mt: "15px",
@@ -187,8 +219,8 @@ export default function Register() {
                               <span
                                 style={{ color: "#beb4fb", cursor: "pointer" }}
                                 onClick={() => {
-                                    navigate("/");
-                                  }}
+                                  navigate("/");
+                                }}
                               >
                                 Sign In
                               </span>

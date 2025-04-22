@@ -16,6 +16,7 @@ import Stack from "@mui/material/Stack";
 import MuiAlert from "@mui/material/Alert";
 import Slide from "@mui/material/Slide";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 const Alert = forwardRef(function Alert(props, ref) {
@@ -48,6 +49,7 @@ const center = {
 export default function Login() {
   const [open, setOpen] = useState(false);
   const [remember, setRemember] = useState(false);
+  const [openError , setOpenError] = useState(false);
   const vertical = "top";
   const horizontal = "right";
   const navigate = useNavigate();
@@ -56,23 +58,47 @@ export default function Login() {
     setOpen(true);
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const email = data.get("email");
+    const password = data.get("password");
+
+    const API_URL = import.meta.env.REACT_APP_API_URL;
+
+    try{
+      await axios.post(`${API_URL}/auth/login`,{
+        email,
+        password,
+      });
+      
+      const token = response.data.token;
+      if(!token) {
+        console.error("No token received from server");
+        setOpenError(true);
+        return;
+
+      }
+      localStorage.setItem("authToken",token);
+      localStorage.setItem('username',response.data.username);
+      navigate("/");
+    }catch(error) {
+      console.error("Login failed:", error);
+      setOpenError(true);
+    }
   };
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === "clickaway") 
       return;
-    }
-    setOpen(false);
+      console.log("Snackbar closed")
+      setOpenError(false);
   };
 
   function TransitionLeft(props) {
     return <Slide {...props} direction="left" />;
   }
-
   return (
     <>
       <Snackbar
-        open={open}
+        open={openError}
         autoHideDuration={3000}
         onClose={handleClose}
         TransitionComponent={TransitionLeft}
@@ -132,7 +158,7 @@ export default function Login() {
                             required
                             fullWidth
                             id="email"
-                            label="Username"
+                            label="Email"
                             name="email"
                             autoComplete="email"
                           />
@@ -145,7 +171,7 @@ export default function Login() {
                             label="Password"
                             type="password"
                             id="password"
-                            autoComplete="new-password"
+                            autoComplete="current-password"
                           />
                         </Grid>
                         <Grid item xs={12} sx={{ ml: "3em", mr: "3em" }}>

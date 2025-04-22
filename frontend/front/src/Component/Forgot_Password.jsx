@@ -8,8 +8,6 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { useState, forwardRef } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
@@ -63,6 +61,45 @@ export default function ForgotPassword() {
     }
     setOpen(false);
   };
+
+  const handleForgotPassword = async() =>{
+    const email = prompt("Enter your email:");
+    if (!email) return;
+
+    try{
+      const response = await fetch('http://localhost:3000/auth/forgot-password',{
+        method:'POST',
+        header:{'Content-Type':'application/json'},
+        body:JSON.stringify({ email}),
+      })
+
+      const data = await response.json();
+      alert(`Reset token: ${data.resetToken}`);
+    }catch(error){
+      console.error('Error:',error);
+    }
+  };
+
+   const handleResetPassaword = async () => {
+    const token = prompt("Enter the reset token:");
+    const newPassword = prompt("Enter new password:");
+
+    if(!token || newPassword) return;
+
+    try{
+      const response = await fetch('http://localhost:3000/auth/reset-password',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ token,newPassword}),
+      });
+
+      const data = await response.json();
+      alert(data.message);
+
+    }catch(error){
+      console.error('Error:error');
+    };
+  }
 
   function TransitionLeft(props) {
     return <Slide {...props} direction="left" />;
