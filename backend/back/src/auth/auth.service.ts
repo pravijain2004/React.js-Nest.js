@@ -14,26 +14,21 @@ const SECRET_KEY = '1098765432123455';
 
 @Injectable()
 export class AuthService {
-
   constructor(@InjectModel(User.name) private userModel:Model<UserDocument>){}
-  
- 
-
   async register(userDto: UserDto) {
     const { username, email, password } = userDto;
-    
     const existingUser = await this.userModel.findOne({ email });
 
     if (existingUser) {
       throw new ConflictException('User already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    
 
     const newUser = new this.userModel({ 
       username, 
       email, 
-      password: hashedPassword
+      password
      });
     
       await newUser.save();
