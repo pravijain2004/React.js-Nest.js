@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { UserDto } from './user.dto';
 import { LoginDto } from './login.dto';
+import { User } from '../Schema/user.schema';
 
 @Controller('auth')
 export class AuthController {
@@ -31,7 +32,7 @@ export class AuthController {
     }
   }
 
-  @Get('register')
+  @Get('/')
   getRegisterMessage() {
     return { message: 'Use POST method to register' };
   }

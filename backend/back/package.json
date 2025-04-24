@@ -31,8 +31,8 @@
     "fs-extra": "^11.3.0",
     "jsonfile": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.13.0",
-    "mongoose": "^8.9.5",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.13.2",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },
