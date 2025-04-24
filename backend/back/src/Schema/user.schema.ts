@@ -6,14 +6,14 @@ export type UserDocument = User & Document;
 
 export class User{
 
-  @Prop({ isRequired :true, trim:true})
-  Username:string
+  @Prop({required :true, trim:true})
+  username:string
 
-  @Prop({isRequired:true, trim:true})
-  Email:string
+  @Prop({required :true, trim:true})
+  email:string
 
-  @Prop({ isRequired:true, trim:true})
-  Password:string
+  @Prop({ required :true, trim:true})
+  password:string
 
   @Prop()
   resetToken?: string;

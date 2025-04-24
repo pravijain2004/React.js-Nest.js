@@ -33,9 +33,10 @@ export class AuthService {
     const newUser = new this.userModel({ 
       username, 
       email, 
-      password: hashedPassword });
+      password: hashedPassword
+     });
     
-    await newUser.save();
+      await newUser.save();
 
 
     return { message: 'User registered successfully' };
@@ -48,14 +49,14 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const isMatch = await bcrypt.compare(password, user.Password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw new UnauthorizedException('Invalid ');
     }
 
-    const token = jwt.sign({ username: user.Username }, SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign({ username: user.username }, SECRET_KEY, { expiresIn: '1h' });
 
-    return { message: 'Login Successful', token , username:user.Username};
+    return { message: 'Login Successful', token , username:user.username};
   }
 
   async forgotPassword(email:string){
@@ -65,7 +66,7 @@ export class AuthService {
       throw new NotFoundException('User not found')
     }
 
-    const resetToken = jwt.sign({ email :user.Email}, SECRET_KEY,{expiresIn:'15m'});
+    const resetToken = jwt.sign({ email :user.email}, SECRET_KEY,{expiresIn:'15m'});
   
 
   user.resetToken = resetToken;
@@ -84,7 +85,7 @@ async resetPassword(token:string,newPassword:string){
       throw new UnauthorizedException('Invalid or expired token');
     }
 
-    user.Password = await bcrypt.hash(newPassword,10);
+    user.password = await bcrypt.hash(newPassword,10);
     delete user.resetToken;
 
     await user.save()
