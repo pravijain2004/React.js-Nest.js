@@ -23,8 +23,6 @@ export class AuthService {
       throw new ConflictException('User already exists');
     }
 
-    
-
     const newUser = new this.userModel({ 
       username, 
       email, 
@@ -41,12 +39,11 @@ export class AuthService {
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Invalid email or password');
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      throw new UnauthorizedException('Invalid ');
+    if(user.password !== password){
+      throw new UnauthorizedException('Invalid email or password')
     }
 
     const token = jwt.sign({ username: user.username }, SECRET_KEY, { expiresIn: '1h' });
